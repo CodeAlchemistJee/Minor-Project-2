@@ -1,0 +1,190 @@
+# ==========================================
+# HELPER FUNCTIONS (Analysis & Processing)
+# ==========================================
+
+def calculate_total(marks):
+    """Returns the total of all marks."""
+    return sum(marks)
+
+def calculate_average(marks):
+    """Returns the average score."""
+    return sum(marks) / len(marks) if marks else 0
+
+def is_pass(average_mark):
+    """Returns True if the student passes (average >= 50), otherwise False."""
+    return average_mark >= 50
+
+def get_age_category(age):
+    """Categorizes student based on age."""
+    if age < 13:
+        return "Child"
+    elif 13 <= age <= 18:
+        return "Teenager"
+    else:
+        return "Adult"
+
+def is_prime(num):
+    """Checks if a number is prime."""
+    if num <= 1:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+def is_palindrome(s):
+    """Checks if a string is a palindrome (ignoring spaces and case)."""
+    s = s.replace(" ", "").lower()
+    return s == s[::-1]
+
+def reverse_roll_number(roll_no):
+    """Reverses the roll number using a while loop."""
+    reversed_num = 0
+    temp = roll_no
+    while temp > 0:
+        digit = temp % 10
+        reversed_num = (reversed_num * 10) + digit
+        temp //= 10
+    return reversed_num
+
+# ==========================================
+# BONUS & EXTRA FUNCTIONALITIES
+# ==========================================
+
+def print_bonus_primes():
+    """Finds and prints all prime numbers between 1 and 100."""
+    primes = [num for num in range(1, 101) if is_prime(num)]
+    print(f"Bonus: Prime numbers between 1 and 100:\n{primes}")
+
+def print_fibonacci(n):
+    """Prints Fibonacci sequence up to n numbers."""
+    if n <= 0:
+        return
+    elif n == 1:
+        print("Fibonacci sequence: [0]")
+        return
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    print(f"Fibonacci sequence for {n} students: {fib}")
+
+# ==========================================
+# MAIN EXECUTION
+# ==========================================
+
+def main():
+    students = []
+    
+    print("--- STUDENT INFORMATION SYSTEM ---")
+    
+    # NEW: Dynamically ask the user for the number of students
+    while True:
+        try:
+            num_students = int(input("How many students would you like to enter? "))
+            if num_students > 0:
+                break
+            else:
+                print("Please enter a valid number greater than 0.")
+        except ValueError:
+            print("Invalid input! Please enter a whole number.")
+    
+    # 1. Data Input & Storage
+    for i in range(num_students):
+        print(f"\n--- Enter details for Student {i+1} ---")
+        name = input("Name: ")
+        
+        # Error handling for Roll Number
+        while True:
+            try:
+                roll_no = int(input("Roll Number: "))
+                break
+            except ValueError:
+                print("Please enter a valid integer for the Roll Number.")
+                
+        # Error handling for Age
+        while True:
+            try:
+                age = int(input("Age: "))
+                if age > 0:
+                    break
+                else:
+                    print("Age must be greater than 0.")
+            except ValueError:
+                print("Please enter a valid integer for Age.")
+        
+        marks = []
+        print("Enter marks for 5 subjects (between 0 and 100):")
+        for j in range(5):
+            while True:
+                try:
+                    mark = int(input(f"Subject {j+1}: "))
+                    # Validate marks
+                    if 0 <= mark <= 100:
+                        marks.append(mark)
+                        break
+                    else:
+                        print("Invalid mark! Please enter a value between 0 and 100.")
+                except ValueError:
+                    print("Please enter a valid integer.")
+        
+        # Store in dictionary
+        student_data = {
+            "name": name,
+            "roll_no": roll_no,
+            "age": age,
+            "marks": marks
+        }
+        students.append(student_data)
+        
+    # 2. Summary Report Generation
+    print("\n==========================================")
+    print("              SUMMARY REPORT              ")
+    print("==========================================")
+    
+    for student in students:
+        name = student["name"]
+        roll_no = student["roll_no"]
+        age = student["age"]
+        marks = student["marks"]
+        
+        # Calculations
+        total = calculate_total(marks)
+        avg = calculate_average(marks)
+        status = "Pass" if is_pass(avg) else "Fail"
+        age_cat = get_age_category(age)
+        
+        prime_status = "Yes" if is_prime(roll_no) else "No"
+        palindrome_status = "Yes" if is_palindrome(name) else "No"
+        rev_roll = reverse_roll_number(roll_no)
+        
+        high_mark = max(marks)
+        low_mark = min(marks)
+        
+        # Output printing
+        print(f"\n* Student Name: {name}")
+        print(f"  Roll Number: {roll_no}")
+        print(f"  Age Category: {age_cat}")
+        print(f"  Total Marks: {total} | Average Marks: {avg:.2f}")
+        print(f"  Status: {status}")
+        print(f"  Name is Palindrome?: {palindrome_status}")
+        print(f"  Roll No is Prime?: {prime_status}")
+        print(f"  Reversed Roll Number: {rev_roll}")
+        print(f"  Highest Mark: {high_mark} | Lowest Mark: {low_mark}")
+        print("-" * 42)
+        
+    # 3. Extra Functionalities Execution
+    print("\n--- EXTRA FUNCTIONALITIES ---")
+    
+    # a. Fibonacci
+    print_fibonacci(len(students))
+    
+    # b. Multiples of 3 and 5 between 100 and 200
+    multiples = [i for i in range(100, 201) if i % 3 == 0 and i % 5 == 0]
+    print(f"\nRoll numbers (100 to 200) multiples of 3 and 5:\n{multiples}")
+    
+    # 4. Bonus Challenge Execution
+    print("\n--- BONUS CHALLENGE ---")
+    print_bonus_primes()
+
+if __name__ == "__main__":
+    main()
