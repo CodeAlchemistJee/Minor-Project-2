@@ -10,7 +10,7 @@ A robust, interactive Python console application designed to manage, process, an
 2. [Core Features](#core-features)
 3. [Algorithmic Implementations](#algorithmic-implementations)
 4. [Installation & Usage](#installation--usage)
-5. [Example Output](#example-output)
+
 
 ## 🎯 Project Overview
 This application allows users to dynamically input an unrestricted number of student records (Name, Roll Number, Age, and Marks across 5 subjects). It strictly validates user inputs to prevent crashes and ensures data integrity (e.g., marks must fall between 0 and 100). Once the data is collected, the program generates a comprehensive academic and algorithmic summary report for each student.
